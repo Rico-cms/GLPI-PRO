@@ -1,2 +1,0 @@
-# GLPI-PRO
-GLPI
