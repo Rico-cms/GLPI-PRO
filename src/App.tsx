@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   LayoutDashboard, Ticket, Monitor, LogOut, Plus, Search, 
   User as UserIcon, CheckCircle, AlertCircle, Menu, X, 
-  Server, Laptop, Smartphone, CreditCard, Link as LinkIcon, 
+  Server, Laptop, Smartphone, CreditCard, 
   Phone, Loader, Download, QrCode, FileText, Info,
   TrendingUp, Activity
 } from 'lucide-react';
@@ -295,7 +295,7 @@ const AuthScreen = () => {
 };
 
 // 2. Dashboard Component
-const Dashboard = ({ tickets, assets, usersCount }: { tickets: Ticket[], assets: Asset[], usersCount: number }) => {
+const Dashboard = ({ tickets, assets, usersCount: _usersCount }: { tickets: Ticket[], assets: Asset[], usersCount: number }) => {
   const resolus = tickets.filter(t => t.status === 'resolu' || t.status === 'clos').length;
   const total = tickets.length;
   const resolutionRate = total > 0 ? Math.round((resolus / total) * 100) : 0;
