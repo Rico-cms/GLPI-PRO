@@ -21,7 +21,14 @@ import {
 } from 'firebase/firestore';
 
 // --- Firebase Configuration & Init ---
-const firebaseConfig = JSON.parse(window.__firebase_config);
+let firebaseConfig;
+try {
+  firebaseConfig = JSON.parse(window.__firebase_config);
+} catch (error) {
+  console.error('Failed to parse Firebase configuration. Please check your index.html file.');
+  throw new Error('Invalid Firebase configuration. Ensure window.__firebase_config is properly set in index.html');
+}
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -955,8 +962,10 @@ export default function App() {
 
   useEffect(() => {
     const initAuth = async () => {
-      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-        try { await signInWithCustomToken(auth, __initial_auth_token); } catch (e) {}
+      if (typeof window.__initial_auth_token !== 'undefined' && window.__initial_auth_token) {
+        try { await signInWithCustomToken(auth, window.__initial_auth_token); } catch (e) {
+          console.warn('Failed to sign in with initial auth token:', e);
+        }
       }
       setAuthLoading(false);
     };
