@@ -21,11 +21,11 @@ import {
 } from 'firebase/firestore';
 
 // --- Firebase Configuration & Init ---
-const firebaseConfig = JSON.parse(__firebase_config);
+const firebaseConfig = JSON.parse(window.__firebase_config);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+const appId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
 
 // --- Types ---
 
