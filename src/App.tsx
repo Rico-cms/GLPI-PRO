@@ -21,7 +21,10 @@ import {
 } from 'firebase/firestore';
 
 // --- Firebase Configuration & Init ---
-const firebaseConfig = JSON.parse(__firebase_config);
+const firebaseConfig = __firebase_config ? JSON.parse(__firebase_config) : null;
+if (!firebaseConfig) {
+  throw new Error('Firebase configuration is missing. Please set VITE_FIREBASE_CONFIG environment variable.');
+}
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -295,6 +298,7 @@ const AuthScreen = () => {
 };
 
 // 2. Dashboard Component
+// Note: usersCount parameter is reserved for future user statistics feature
 const Dashboard = ({ tickets, assets, usersCount: _usersCount }: { tickets: Ticket[], assets: Asset[], usersCount: number }) => {
   const resolus = tickets.filter(t => t.status === 'resolu' || t.status === 'clos').length;
   const total = tickets.length;
