@@ -1,0 +1,11 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    '__firebase_config': process.env.VITE_FIREBASE_CONFIG || 'null',
+    '__app_id': JSON.stringify(process.env.VITE_APP_ID || 'glpi-pro'),
+    '__initial_auth_token': JSON.stringify(process.env.VITE_INITIAL_AUTH_TOKEN || undefined)
+  }
+})

@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { 
   LayoutDashboard, Ticket, Monitor, LogOut, Plus, Search, 
   User as UserIcon, CheckCircle, AlertCircle, Menu, X, 
-  Server, Laptop, Smartphone, CreditCard, Link as LinkIcon, 
+  Server, Laptop, Smartphone, CreditCard, 
   Phone, Loader, Download, QrCode, FileText, Info,
   TrendingUp, Activity
 } from 'lucide-react';
@@ -21,7 +21,10 @@ import {
 } from 'firebase/firestore';
 
 // --- Firebase Configuration & Init ---
-const firebaseConfig = JSON.parse(__firebase_config);
+const firebaseConfig = __firebase_config ? JSON.parse(__firebase_config) : null;
+if (!firebaseConfig) {
+  throw new Error('Firebase configuration is missing. Please set VITE_FIREBASE_CONFIG environment variable.');
+}
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -295,7 +298,8 @@ const AuthScreen = () => {
 };
 
 // 2. Dashboard Component
-const Dashboard = ({ tickets, assets, usersCount }: { tickets: Ticket[], assets: Asset[], usersCount: number }) => {
+// Note: usersCount parameter is reserved for future user statistics feature
+const Dashboard = ({ tickets, assets, usersCount: _usersCount }: { tickets: Ticket[], assets: Asset[], usersCount: number }) => {
   const resolus = tickets.filter(t => t.status === 'resolu' || t.status === 'clos').length;
   const total = tickets.length;
   const resolutionRate = total > 0 ? Math.round((resolus / total) * 100) : 0;
